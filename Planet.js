@@ -1,4 +1,6 @@
 let moveToEarth = false;
+let moveFromEarth = false;
+let isZoomedOut = true;
 
 let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
@@ -8,7 +10,6 @@ let renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-//////
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
@@ -33,21 +34,11 @@ let wolken = new THREE.Mesh( geometry_wolken, material_wolken );
 wolken.naam = "wolken";
 aarde.add(wolken);
 
-
-let bol = new THREE.Mesh(geometry, material_wolken);
-//scene.add(bol);
-bol.position.z = 3;
-bol.naam = 'bol'
-
 camera.position.y = 5;
 camera.position.z = 10;
 camera.lookAt(aarde.position);
 
-///////////
 function onMouseClick( event ) {
-
-	// calculate mouse position in normalized device coordinates
-	// (-1 to +1) for both components
 
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
@@ -55,14 +46,14 @@ function onMouseClick( event ) {
     raycaster.setFromCamera( mouse, camera );
     var intersects = raycaster.intersectObjects( scene.children );
     if(intersects.length > 0){
-        //if(intersects[1].object.naam == "earth"){
-          //  console.log("djklajslk;jflk;asjfkl;asjfkl;sajfl;aj;fal")
-        //}
+
         for(var i = 0; i < intersects.length; i++){
             if(intersects[i].object.naam == "earth"){
-                
-                let moveToEarthPosition = new THREE.Vector3(aarde.position.x, aarde.position.y, aarde.position.z - 3);    
-                moveToEarth = true;
+                if(isZoomedOut){
+                    moveToEarth = true;
+                }else if(!isZoomedOut){
+                    moveFromEarth = true;
+                }
             }
         }        
     }
@@ -75,28 +66,38 @@ let animate = function () {
     aarde.rotation.y += 0.003;
     wolken.rotation.y += 0.002;
 
-    
-    //
     if(moveToEarth){
-        //let moveToPositionEarth.x = aarde.position.x;
-        //let moveToPositionEarth.y = aarde.position.y;
-        //let moveToPositionEarth.z = aarde.position.z + 3;
-        
-        var timesCameraMoved = 0;
-                if(timesCameraMoved == 60){
-            //moveToEarth=false;
-        }
-        
         let xDifference = camera.position.x - aarde.position.x;
         let yDifference = camera.position.y - aarde.position.y;
         let zDifference = camera.position.z - aarde.position.z - 3;
-        camera.position.x -= xDifference/60;
-        camera.position.y -= yDifference/60;
-        camera.position.z -= zDifference/60;
-        timesCameraMoved++;
+        camera.position.x -= xDifference/90;
+        camera.position.y -= yDifference/90;
+        camera.position.z -= zDifference/90;
         camera.lookAt(aarde.position);
-
-        
+        console.log(zDifference);
+        if(zDifference < 2){
+            document.getElementById('Aarde_H1').style.opacity = '1';    
+        }
+        if(zDifference < 1){
+            document.getElementById('Aarde_P').style.opacity = '1';
+            isZoomedOut = false;
+            moveToEarth = false;
+        }
+    }
+    if(moveFromEarth){
+        document.getElementById('Aarde_H1').style.opacity = '0';
+        document.getElementById('Aarde_P').style.opacity = '0';
+        let xDifference = camera.position.x + aarde.position.x;
+        let yDifference = 5
+        let zDifference = 10
+        camera.position.x += xDifference/90;
+        camera.position.y += yDifference/90;
+        camera.position.z += zDifference/90;
+        camera.lookAt(aarde.position);
+        if(camera.position.z > 10){
+            moveFromEarth = false;
+            isZoomedOut = true;
+        }
     }
     
 

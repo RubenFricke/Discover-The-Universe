@@ -1,0 +1,30 @@
+*{
+    margin: 0;
+    padding:0;
+}
+
+#Aarde{
+
+}
+
+#Aarde_H1{
+    position: fixed; 
+    color: white; 
+    left: 50%; 
+    transform: translate(-50%, 0%);
+    font-family: font-family: 'Della Respira', serif;
+    font-size: 70px;
+    margin: 40px 0;
+    text-transform: uppercase;
+    letter-spacing: 18px;
+    opacity: 0;
+    transition: 3s opacity;
+}
+
+#Aarde_P{
+    position: absolute;
+    color: white;
+    font-family: sans-serif;
+    opacity: 0;
+    transition: 3s opacity;
+}
