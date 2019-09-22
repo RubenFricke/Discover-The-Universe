@@ -1,5 +1,8 @@
+let moveToEarth = false;
+
 let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+scene.add(camera);
 
 let renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -28,11 +31,11 @@ let geometry_wolken = new THREE.SphereGeometry( 1.01,128,128 );
 let material_wolken = new THREE.MeshPhongMaterial({map: THREE.ImageUtils.loadTexture('Img/Earth_cloud.png'),transparent: true});
 let wolken = new THREE.Mesh( geometry_wolken, material_wolken );
 wolken.naam = "wolken";
-//aarde.add(wolken);
+aarde.add(wolken);
 
 
 let bol = new THREE.Mesh(geometry, material_wolken);
-scene.add(bol);
+//scene.add(bol);
 bol.position.z = 3;
 bol.naam = 'bol'
 
@@ -52,18 +55,16 @@ function onMouseClick( event ) {
     raycaster.setFromCamera( mouse, camera );
     var intersects = raycaster.intersectObjects( scene.children );
     if(intersects.length > 0){
-        
+        //if(intersects[1].object.naam == "earth"){
+          //  console.log("djklajslk;jflk;asjfkl;asjfkl;sajfl;aj;fal")
+        //}
         for(var i = 0; i < intersects.length; i++){
-            console.log(intersects[i]);
-            console.log(intersects[i].naam)
-            console.log(intersects[ i ].object.naam);
-            
-            if(intersects[i].naam == "earth"){
-            console.log("This doesn't work!")
-            aarde.add(wolken);
-        }
-        }
-        
+            if(intersects[i].object.naam == "earth"){
+                
+                let moveToEarthPosition = new THREE.Vector3(aarde.position.x, aarde.position.y, aarde.position.z - 3);    
+                moveToEarth = true;
+            }
+        }        
     }
 }
 
@@ -73,9 +74,30 @@ let animate = function () {
 
     aarde.rotation.y += 0.003;
     wolken.rotation.y += 0.002;
+
     
     //
+    if(moveToEarth){
+        //let moveToPositionEarth.x = aarde.position.x;
+        //let moveToPositionEarth.y = aarde.position.y;
+        //let moveToPositionEarth.z = aarde.position.z + 3;
+        
+        var timesCameraMoved = 0;
+                if(timesCameraMoved == 60){
+            //moveToEarth=false;
+        }
+        
+        let xDifference = camera.position.x - aarde.position.x;
+        let yDifference = camera.position.y - aarde.position.y;
+        let zDifference = camera.position.z - aarde.position.z - 3;
+        camera.position.x -= xDifference/60;
+        camera.position.y -= yDifference/60;
+        camera.position.z -= zDifference/60;
+        timesCameraMoved++;
+        camera.lookAt(aarde.position);
 
+        
+    }
     
 
     renderer.render( scene, camera );
