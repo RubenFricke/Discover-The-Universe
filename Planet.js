@@ -1,8 +1,21 @@
+let mainTxt = document.getElementById("Aarde_H1");
+
+
 let moveToEarth = false;
 let moveToMoon = false;
-let moveFromEarth = false;
-let moveFromMoon = false;
 let isZoomedOut = true;
+let moveToSaturn = false;
+let moveToJupiter = false;
+let moveToVenus = false;
+let moveToMercurius = false;
+let moveToMars = false;
+let setupValues = true;
+
+let countMercRing = 0;
+
+let goToRotX;//DIT MOET MISCHIEN WEG:kjljdLKFJ;LKSJFLK;
+let goToRotY;
+let goToRotZ;
 
 let hoekZon;
 let hoekMercurius;
@@ -44,6 +57,36 @@ light6.position.set(0,-1,0);
 scene.add(light6);
 
 
+let geometry_ringMercurius = new THREE.TorusGeometry(10,.2, 128,128, countMercRing);
+let material_ringMercurius = new THREE.MeshBasicMaterial({color: 0x3aa6c5, opacity: 0.3, transparent: true})
+let ringMercurius = new THREE.Mesh(geometry_ringMercurius, material_ringMercurius);
+scene.add(ringMercurius);
+ringMercurius.rotateX(Math.PI / 2)
+
+let geometry_ringVenus = new THREE.TorusGeometry(16, .2,256, 256);
+let ringVenus = new THREE.Mesh(geometry_ringVenus, material_ringMercurius);
+scene.add(ringVenus);
+ringVenus.rotateX(Math.PI / 2);
+
+let geometry_ringAarde = new THREE.TorusGeometry(24, .2,256, 256);
+let ringAarde = new THREE.Mesh(geometry_ringAarde, material_ringMercurius);
+scene.add(ringAarde);
+ringAarde.rotateX(Math.PI / 2);
+
+let geometry_ringMars = new THREE.TorusGeometry(30, .2,256, 256);
+let ringMars = new THREE.Mesh(geometry_ringMars, material_ringMercurius);
+scene.add(ringMars);
+ringMars.rotateX(Math.PI / 2);
+
+let geometry_ringJupiter = new THREE.TorusGeometry(40, .2,256, 256);
+let ringJupiter = new THREE.Mesh(geometry_ringJupiter, material_ringMercurius);
+scene.add(ringJupiter);
+ringJupiter.rotateX(Math.PI / 2);
+
+let geometry_ringSaturnus = new THREE.TorusGeometry(60, .2,256, 256);
+let ringSaturnus = new THREE.Mesh(geometry_ringSaturnus, material_ringMercurius);
+scene.add(ringSaturnus);
+ringSaturnus.rotateX(Math.PI / 2);
 
 let geometry_zon = new THREE.SphereGeometry( 3, 256, 256 );
 let material_zon = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('Img/Sun.jpg'), bumpMap: THREE.ImageUtils.loadTexture('Img/Sun.jpg'), bumpScale: 0.5});
@@ -133,14 +176,23 @@ saturnus.naam = "Saturn";
 scene.add(saturnus);
 saturnus.position.z = 45;
 
-let geometry_rings = new THREE.TorusGeometry(2.1 , .3, 256, 256);
-let material_rings = new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('Img/SaturnusRings.jpg')})
+
+let geometry_rings = new THREE.TorusGeometry(3 , 0.6, 2 , 256);
+let material_rings = new THREE.MeshPhongMaterial({ map: THREE.ImageUtils.loadTexture('Img/SaturnusRing.jpg')})
 let saturnus_rings = new THREE.Mesh(geometry_rings, material_rings);
 saturnus.add(saturnus_rings);
+saturnus_rings.rotateX(Math.PI / 2)
 
 camera.position.y = 100;
 camera.position.z = 10;
 camera.lookAt(zon.position);
+
+
+
+
+//TWEEN
+
+
 
 
 
@@ -155,25 +207,79 @@ function onMouseClick( event ) {
 
         for(var i = 0; i < intersects.length; i++){
             if(intersects[i].object.naam == "earth"){
-                console.log("Aarde")
-                if(moveToEarth = false){
-                    moveToEarth = true;
-                }else if(moveToEarth = true){
-                    moveFromEarth = true;
-                }
-                
+                mainTxt.innerHTML = "AARDE";
+                setupValues = true;
+                moveToJupiter = false;
+                moveToMoon = false;
+                moveToSaturn = false;
+                moveToVenus = false;
+                moveToMercurius = false;
+                moveToMars = false;
+                moveToEarth = true;
+               
+                lookAtTarget[1] = aarde.position;               
             }else if(intersects[i].object.naam == "moon"){
-                console.log("Maan")
+                mainTxt.innerHTML = "MAAN";
+                setupValues = true;
+                moveToJupiter = false;
+                moveToEarth = false;
+                moveToSaturn = false;
+                moveToVenus = false;
+                moveToMercurius = false;
+                moveToMars = false;
+                moveToMoon = true;
             }else if(intersects[i].object.naam == "Saturn"){
-                console.log("Saturnus")
+                mainTxt.innerHTML = "SATURNUS";
+                setupValues = true;
+                moveToJupiter = false;
+                moveToEart = false;
+                moveToMoon = false;
+                moveToVenus = false;
+                moveToMercurius = false;
+                moveToMars = false;
+                moveToSaturn = true;
             }else if(intersects[i].object.naam == "Jupiter"){
-                console.log("Jupiter")
+                mainTxt.innerHTML = "JUPITER";
+                setupValues = true;
+                moveToEarth = false;
+                moveToMoon = false;
+                moveToSaturn = false;
+                moveToMercurius = false;
+                moveToVenus = false;
+                moveToMars = false;
+                moveToJupiter = true;
             }else if(intersects[i].object.naam == "Mars"){
-                console.log("Mars")
+                mainTxt.innerHTML = "MARS";
+                //setupValues = true;
+                moveToEarth = false;
+                moveToMoon = false;
+                moveToSaturn = false;
+                moveToJupiter = false;
+                moveToMercurius = false;
+                moveToVenus = false;
+                moveToMars = true;
+                
             }else if(intersects[i].object.naam == "Venus"){
-                console.log("Venus")
+                mainTxt.innerHTML = "VENUS";
+                setupValues = true;
+                moveToEarth = false;
+                moveToMoon = false;
+                moveToSaturn = false;
+                moveToJupiter = false;
+                moveToMercurius = false;
+                moveToMars = false;
+                moveToVenus = true;
             }else if(intersects[i].object.naam == "mercury"){
-                console.log("Mercurius")
+                mainTxt.innerHTML = "MERCURIUS";
+                setupValues = true;
+                moveToEarth = false;
+                moveToMoon = false;
+                moveToSaturn = false;
+                moveToJupiter = false;
+                moveToVenus = false;
+                moveToMars = false;
+                moveToMercurius = true;
+
             }else if(intersects[i].object.naam == "sun"){
                 console.log("Zon")
             }
@@ -181,12 +287,14 @@ function onMouseClick( event ) {
     }
 }
 
-
+var lookAtTarget = [new THREE.Vector3(0,0,0), new THREE.Vector3(0,0,0)]
 let animate = function () {
     requestAnimationFrame( animate );
 
+    saturnus.rotation.y += 1/1000;
     mercury_rotator.rotation.y += /*1/800*/ 1/50;
     venus_rotator.rotation.y += /*1/2250*/ 1/100;
+    mars.rotation.y += 1/400;
     //if(hoek <=10){
     zon.rotation.y += /*3650*/ 1/225;
     //}
@@ -208,6 +316,9 @@ let animate = function () {
     hoekJupiter = THREE.Math.radToDeg(jupiter_rotator.rotation.y) % 360;
     hoekSaturnus = THREE.Math.radToDeg(saturnus_rotator.rotation.y) % 360;
     
+    
+    countMercRing += 0.0001;
+    //console.log(countMercRing);
     
     //console.log(vectorMoon);
     
@@ -232,14 +343,56 @@ let animate = function () {
             isZoomedOut = false;
             moveToEarth = false;
         }*/
-        camera.position.x = aarde.position.x;
-        camera.position.y = 2;
-        camera.position.z = aarde.position.z + 4;
-        camera.lookAt(aarde.position);
-        isZoomedOut = false;
+        //let goToRot;
+        //let goFromRotX = camera.rotation.x;
+        //let goFromRotY = camera.rotation.y;
+        //let goFromRotZ = camera.rotation.z;
+        //if(setupValues == true){
+          //  camera.position.x = aarde.position.x;
+            //camera.position.y = aarde.position.y + 2;
+            //camera.position.z = aarde.position.z + 4;
+            //camera.lookAt(aarde.position);
+            //goToRotX = camera.rotation.x;
+            //goToRotY = camera.rotation.y;
+            //console.log(goToRotY);
+            //goToRotZ = camera.rotation.z;
+            //camera.position.x = zon.position.x;
+            //camera.position.y = 100;
+            //camera.position.z = 10;
+            //camera.lookAt(zon.position);
+            //setupValues = false;
+        //}
+        //goToRotY = camera.rotation.y;
+        //console.log(goToRotY);
+        //let rotDifX =  goFromRotX - goToRotX;
+        //let rotDifY = goFromRotY - goToRotY;
+        //let rotDifZ = goFromRotZ - goToRotZ;
+        //console.log(camera.rotation);
+        //console.log(goToRotX);
+        let xDifference = camera.position.x - aarde.position.x;
+        let yDifference = camera.position.y - aarde.position.y - 2;
+        let zDifference = camera.position.z - aarde.position.z - 4;
+        camera.position.x -= xDifference/90;
+        camera.position.y -= yDifference/90;
+        camera.position.z -= zDifference/90;
+        //------------------
+
+        lookAtTarget[1].x = lookAtTarget[0].x +15- (lookAtTarget[0].x - lookAtTarget[1].x)*0.002
+        lookAtTarget[1].y = lookAtTarget[0].y + 15-(lookAtTarget[0].y - lookAtTarget[1].y)*0.002
+        lookAtTarget[1].z = lookAtTarget[0].z + 15-(lookAtTarget[0].z - lookAtTarget[1].z)*0.002
+        //------------------
+        //camera.rotation.x -= rotDifX / 90;
+        //camera.rotation.y -= rotDifY / 90;
+        //camera.rotation.z -= rotDifZ / 90;
         
+        //camera.position.x = aarde.position.x;
+        //camera.position.y = 2;
+        //camera.position.z = aarde.position.z + 4;
+        //camera.lookAt(aarde.position);
+        isZoomedOut = false;
+        camera.lookAt(lookAtTarget[1]);
     }
-    if(!moveToEarth){/*
+    if(!moveToEarth){/*//dit is niet alleen van move from earth, maar eigenlijk van elke planeet. Dit reset de camera
         document.getElementById('Aarde_H1').style.opacity = '0';
         document.getElementById('Aarde_P').style.opacity = '0';
         let xDifference = camera.position.x + aarde.position.x;
@@ -260,9 +413,63 @@ let animate = function () {
         camera.lookAt(zon.position)
     }
     
+    if(moveToMars){
+        /*let goFromRot;
+        let goToRot;*/
+        camera.position.x = mars.position.x;
+        camera.position.y = 2;
+        camera.position.z = mars.position.z + 4;
+        camera.lookAt(mars.position);
+        /*if(setupValues == true){
+            goFromRot = camera.rotation.x;
+            camera.lookAt(mars.position);
+            goToRot = camera.rotation.x;
+            camera.lookAt(zon.position);
+            setupValues = false;
+            console.log("D")
+        }
+        rotDif = goToRot - goFromRot;
+        camera.position.x += */
+        //camera.rotation.x += (goFromRot - goToRot) / 600000000;
+        
+    }
+    
+    if(moveToVenus){
+        camera.position.x = venus.position.x;
+        camera.position.y = 2;
+        camera.position.z = venus.position.z + 4;
+        camera.lookAt(venus.position);
+    }
+    
+    if(moveToJupiter){
+        camera.position.x = jupiter.position.x;
+        camera.position.y = 2;
+        camera.position.z = jupiter.position.z + 4;
+        camera.lookAt(jupiter.position);
+    }
+    
+    if(moveToMercurius){
+        camera.position.x = mercurius.position.x;
+        camera.position.y = 2;
+        camera.position.z = mercurius.position.z + 4;
+        camera.lookAt(mercurius.position);
+    }
+    
     //console.log(maan.localToWorld(maan.position));
+    if(moveToSaturn){
+        camera.position.x = saturnus.position.x;
+        camera.position.y = 2;
+        camera.position.z = saturnus.position.z + 10;
+        camera.lookAt(saturnus.position);
+    }
     
     if(moveToMoon){
+        console.log(maan.position);
+        camera.position.x = maan.position.x;
+        camera.position.y = 2;
+        camera.position.z = maan.position.z + 4;
+        camera.lookAt(maan.position);
+        
         //maan.geometry.computeBoundingSphere();
         //var vector = maan.geometry.center;
         //camera.lookAt(vector);d
@@ -314,23 +521,26 @@ let animate = function () {
     jupiter.position.z = 40 * Math.cos(THREE.Math.degToRad(hoekJupiter));
     jupiter.position.y = 0;
     
-    saturnus.position.x = 50 * Math.sin(THREE.Math.degToRad(hoekSaturnus));
-    saturnus.position.z = 50 * Math.cos(THREE.Math.degToRad(hoekSaturnus));
+    saturnus.position.x = 60 * Math.sin(THREE.Math.degToRad(hoekSaturnus));
+    saturnus.position.z = 60 * Math.cos(THREE.Math.degToRad(hoekSaturnus));
     saturnus.position.y = 0;
     
-
-    //camera.rotation = hoek
     
     renderer.render( scene, camera );
 };
 
+
 window.addEventListener( 'click', onMouseClick, false );
 window.addEventListener('keydown', function(e){
     if(e.which == 27){
-        if(moveToEarth == true){
-            moveToEarth = false;
-            moveFromEarth = true;
-        }
+        moveToJupiter = false;
+        moveToEarth = false;
+        moveToMoon = false;
+        moveToSaturn = false;
+        moveToVenus = false;
+        moveToMercurius = false;
+        moveToMars = false;
+        mainTxt.innerHTML = "HET ZONNESTELSEL";
     }
 })
 

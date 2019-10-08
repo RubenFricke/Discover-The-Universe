@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding:0;
+    
 }
 
 #Aarde{
@@ -13,12 +14,15 @@
     left: 50%; 
     transform: translate(-50%, 0%);
     font-family: font-family: 'Della Respira', serif;
-    font-size: 70px;
-    margin: 40px 0;
+    font-size: 50px;
+    margin: 20px 0;
     text-transform: uppercase;
     letter-spacing: 18px;
-    opacity: 0;
+    opacity: 1;
     transition: 3s opacity;
+    z-index: 10;
+    width: 100%;
+    text-align: center;
 }
 
 #Aarde_P{
