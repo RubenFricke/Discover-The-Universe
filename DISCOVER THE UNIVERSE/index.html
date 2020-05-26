@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="Style.css">
+    <link href="https://fonts.googleapis.com/css?family=Della+Respira&display=swap" rel="stylesheet">
+</head>
+<body style="margin: 0; padding: 0;">
+        <div id="loadscreen">
+            <p>Aan het laden...</p>
+        </div>
+        <div id="spinner"></div>
+    <h1 id="Aarde_H1">HET ZONNESTELSEL</h1>
+    
+    <script src="https://threejs.org/build/three.js"></script>
+    <div id="Aarde">
+        
+    <script src="js/planet.js"></script>
+    <a id="menu" onclick="openNav()">&#9776;</a>
+
+
+    <div id="myNav" class="overlay">
+        <a href="#" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="overlay-content">
+          <a href="index.html">Ontdek het Zonnestelsel</a>
+          <a href="Orientatieverslag.html">Ori&euml;ntatieverslag</a>
+        </div>
+      </div> 
+    </div>
+    <audio loop autoplay>
+        <source src="Music.mp3">
+    </audio>
+<script>
+function openNav(){
+    document.getElementById("myNav").style.width = "100%"
+}
+function closeNav(){
+    document.getElementById("myNav").style.width = "0%"
+}
+</script>
+<script>
+        let spinner = document.getElementById("spinner");
+        let loadscreen = document.getElementById("loadscreen");
+
+        window.addEventListener('load', function(){
+        spinner.style.display = 'none';
+        loadscreen.style.display = 'none';
+        })   
+    </script>
+</body>
+    
+
+</html>
